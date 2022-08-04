@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Moment from "moment";
@@ -9,15 +9,17 @@ export default function Form({
   date,
   button,
   handleSubmitForm,
+  data,
+  index,
 }) {
   const minDate = Moment().format("YYYY-MM-DD");
-  //   console.log(date);
+
   const formik = useFormik({
     initialValues: {
-      taskName: "",
-      description: "",
-      date: date,
-      piority: "Normal",
+      taskName: data?.taskName || "",
+      description: data?.description || "",
+      date: data ? data.date : date || "",
+      piority: data?.piority || "",
     },
     validationSchema: Yup.object({
       taskName: Yup.string()
@@ -25,10 +27,11 @@ export default function Form({
         .required("This field is required"),
     }),
     onSubmit: (values) => {
-      //   alert(JSON.stringify(values, null, 2));
-      handleSubmitForm(values);
+      const clone = { values, index };
+      handleSubmitForm(clone);
     },
   });
+
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
       <p className="title">{title}</p>
@@ -40,7 +43,6 @@ export default function Form({
         className="taskName"
         placeholder={placeholder}
         onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
         value={formik.values.taskName}
       />
       {formik.touched.taskName && formik.errors.taskName ? (
@@ -56,7 +58,6 @@ export default function Form({
         type="text"
         className="description"
         onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
         value={formik.values.description}
       />
 
@@ -72,7 +73,6 @@ export default function Form({
             className="date"
             min={minDate}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
             value={formik.values.date}
           />
         </div>
@@ -82,11 +82,10 @@ export default function Form({
           </label>
           <select
             name="piority"
-            defaultValue="Normal"
+            defaultValue={data?.piority ? data?.piority : "Normal"}
             className="piority"
             value={formik.piority}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
             style={{ display: "block" }}
           >
             <option value="Low" label="Low">
@@ -105,7 +104,7 @@ export default function Form({
       </div>
 
       <button className="button" type="submit">
-        {button}
+        {data ? "Update" : "Add"}
       </button>
     </form>
   );

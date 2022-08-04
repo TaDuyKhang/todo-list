@@ -7,19 +7,19 @@ export const todoList = createSlice({
       {
         taskName: "Do homework",
         description: "Lorem ipsum...",
-        date: "2022-08-04",
+        date: "2023-07-04",
         piority: "Normal",
       },
       {
         taskName: "Do housework",
         description: "Do housework",
-        date: "2022-08-04",
+        date: "2023-06-26",
         piority: "High",
       },
       {
         taskName: "Learn something",
         description: "Learn something",
-        date: "2022-08-04",
+        date: "2023-07-10",
         piority: "Low",
       },
     ],
@@ -33,10 +33,16 @@ export const todoList = createSlice({
         (item, index) => index !== action.payload
       );
     },
+    updateTask: (state, action) => {
+      state.taskList = state.taskList.filter(
+        (item, index) => index !== action.payload.index
+      );
+      state.taskList.splice(action.payload.index, 0, action.payload.values);
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewTask, removeTask } = todoList.actions;
+export const { addNewTask, removeTask, updateTask } = todoList.actions;
 
 export default todoList.reducer;

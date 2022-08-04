@@ -1,30 +1,47 @@
 import "../css/ListTask.scss";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeTask } from "../store/features/slice.js";
+import { updateTask } from "../store/features/slice.js";
+import Form from "./Form.jsx";
+import List from "./List.jsx";
 
 export default function ListTask({ data }) {
-  console.log(data);
+  const initialDetail = () => {
+    const clone = [];
+    for (let i = 0; i < data.length; i++) {
+      clone.push(false);
+    }
+    return clone;
+  };
+  const [detail, setDetail] = useState(initialDetail());
   const dispatch = useDispatch();
+  const handleSubmitForm = (data) => {
+    dispatch(updateTask(data));
+  };
+
+  const handleDetail = (index) => {
+    const clone = [...detail];
+    clone.splice(index, 1, !detail[index]);
+    setDetail(clone);
+  };
+
+  useEffect(() => {
+    console.log(detail);
+  }, [detail]);
 
   return (
     <div className="list-task">
       {data.map((item, index) => (
-        <div className="item" key={index}>
-          <div className="text-box">
-            <label className="checkbox-label" htmlFor={index}>
-              <input id={index} type="checkbox" className="checkbox" />
-              <p className="checkbox-p"></p>
-            </label>
-            <span className="task-name">{item.taskName}</span>
-          </div>
-          <div className="button-box">
-            <button className="detail">Detail</button>
-            <button
-              onClick={() => dispatch(removeTask(index))}
-              className="remove"
-            >
-              Remove
-            </button>
+        <div key={index}>
+          <List item={item} index={index} handleDetail={handleDetail} />
+
+          <div className={detail[index] ? "active" : "unActive"}>
+            <Form
+              data={item}
+              index={index}
+              handleSubmitForm={handleSubmitForm}
+            />
           </div>
         </div>
       ))}
