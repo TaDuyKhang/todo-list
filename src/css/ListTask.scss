@@ -1,0 +1,66 @@
+.list-task {
+    .item {    
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 50px;
+        margin: 20px 45px;
+        padding: 0 20px;
+        border: 1px solid black;
+    }
+
+    .text-box {
+        display: flex;
+        align-items: center;
+    }
+
+    .checkbox-label {
+        position: relative;
+        display: inline-block;
+        border: 1px solid black;
+        height: 15px;
+        width: 15px;
+        margin-right: 15px;
+    }
+
+    .checkbox[type='checkbox'] {
+        visibility: hidden;
+        position: absolute;
+    }
+
+    .checkbox[type=checkbox]:checked + p:before {
+        content: "✔";
+        position: absolute;
+        top: -4px;
+        left: 2px;
+    }
+      
+    .checkbox-p{
+        margin: 0;
+    }
+
+    .task-name {
+        font-size: 14px;
+    }
+
+
+
+    .detail {
+        padding: 6px 28px;
+        font-size: 11px;
+        margin-right: 17px;
+        border: 0;
+        border-radius: 5px;
+        background-color: #00bcd4;
+        color: white;
+    }
+
+    .remove {
+        padding: 6px 14px;
+        font-size: 11px;
+        border: 0;
+        border-radius: 5px;
+        background-color: #d9534f;
+        color: white;
+    }
+}
