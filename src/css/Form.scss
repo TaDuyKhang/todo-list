@@ -1,0 +1,70 @@
+.form {
+    width: 32%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 45px;
+    box-sizing: content-box;
+
+    .title{
+        font-size: 25px;
+        font-weight: 500;
+        margin: 15px 0 50px 0;
+    }
+
+    .label{
+        font-size: 14px;
+        text-align: initial;
+        font-weight: 500;
+        display: block;
+        margin: 30px 0 10px 0;
+    }
+
+    .taskName{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        height: 35px;
+        border-radius: 5px;
+        border-color: #d7d7d7;
+    }
+
+    .description {
+        width: 100%;
+        height: 160px;
+        box-sizing: border-box;
+    }
+
+    .box-item{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .item{
+        width: 48%;
+    }
+
+    .date {
+        width: 100%;
+        height: 35px;
+        padding: 7px;
+        box-sizing: border-box;
+    }
+
+    .piority {
+        width: 100%;
+        height: 35px;
+        padding: 7px;
+        box-sizing: border-box;
+    }
+    
+    .button {
+        color: white;
+        font-weight: 500;
+        margin-top: 50px;
+        height: 35px;
+        border: 0;
+        background-color: #5cb85c;
+    }
+}
+
