@@ -16,7 +16,7 @@ export default function SearchBar({ filterData }) {
     setInputText(lowerCase);
   };
 
-  const filteredData = data.filter((el) => {
+  const filteredData = data?.filter((el) => {
     if (inputText === "") {
       return el;
     } else {

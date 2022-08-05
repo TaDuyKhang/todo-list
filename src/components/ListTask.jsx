@@ -1,48 +1,42 @@
 import "../css/ListTask.scss";
-import { useEffect } from "react";
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateTask } from "../store/features/slice.js";
 import Form from "./Form.jsx";
-import List from "./List.jsx";
+import Item from "./Item.jsx";
 
 export default function ListTask({ data }) {
-  const initialDetail = () => {
-    const clone = [];
-    for (let i = 0; i < data.length; i++) {
-      clone.push(false);
-    }
-    return clone;
-  };
-  const [detail, setDetail] = useState(initialDetail());
+  const [detail, setDetail] = useState([]);
   const dispatch = useDispatch();
+
   const handleSubmitForm = (data) => {
     console.log(data);
     dispatch(updateTask(data));
   };
 
-  const handleDetail = (index) => {
-    const clone = [...detail];
-    clone.splice(index, 1, !detail[index]);
-    setDetail(clone);
+  const handleDetail = (id) => {
+    if (detail?.some((element) => element === id)) {
+      setDetail(detail?.filter((element) => element !== id));
+    } else {
+      setDetail([...detail, id]);
+    }
   };
-
-  useEffect(() => {
-    console.log(detail);
-  }, [detail]);
 
   return (
     <div className="list-task">
-      {data.map((item, index) => (
-        <div key={index}>
-          <List item={item} index={index} handleDetail={handleDetail} />
+      {data?.map((item, index) => (
+        <div key={item.id}>
+          <Item item={item} handleDetail={handleDetail} />
 
-          <div className={detail[index] ? "active" : "unActive"}>
-            <Form
-              data={item}
-              handleSubmitForm={handleSubmitForm}
-              index={index}
-            />
+          <div
+            className={
+              detail?.some((element) => element === item.id)
+                ? "active"
+                : "unActive"
+            }
+          >
+            <Form data={item} handleSubmitForm={handleSubmitForm} />
           </div>
         </div>
       ))}

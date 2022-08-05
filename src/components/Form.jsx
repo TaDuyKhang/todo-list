@@ -1,8 +1,9 @@
-import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Moment from "moment";
 import "../css/Form.scss";
+import { useEffect } from "react";
+
 export default function Form({
   title,
   placeholder,
@@ -13,6 +14,10 @@ export default function Form({
   index,
 }) {
   const minDate = Moment().format("YYYY-MM-DD");
+
+  useEffect(() => {
+    console.log("data", data);
+  }, [data]);
 
   const formik = useFormik({
     initialValues: {
@@ -26,18 +31,26 @@ export default function Form({
         .min(1, "This field is required")
         .required("This field is required"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       const clone = { values, index: index };
       // console.log(clone);
       if (data) {
         clone.values.id = data.id;
+        clone.values.checked = data.checked;
       }
       handleSubmitForm(clone);
+
+      if (!data) {
+        resetForm();
+      }
     },
   });
 
   return (
-    <form className="form" onSubmit={formik.handleSubmit}>
+    <form
+      className={data ? "form border" : "form"}
+      onSubmit={formik.handleSubmit}
+    >
       <p className="title">{title}</p>
 
       <input

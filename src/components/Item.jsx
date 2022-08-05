@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
 import { removeTask, setCheckbox } from "../store/features/slice.js";
-import { useState, useEffect } from "react";
 
-export default function List({ item, index, handleDetail }) {
+export default function Item({ item, handleDetail }) {
   const dispatch = useDispatch();
 
   const handleRemoveTask = () => {
@@ -29,7 +28,7 @@ export default function List({ item, index, handleDetail }) {
         <span className="task-name">{item.taskName}</span>
       </div>
       <div className="button-box">
-        <button onClick={() => handleDetail(index)} className="detail">
+        <button onClick={() => handleDetail(item.id)} className="detail">
           Detail
         </button>
         <button onClick={() => handleRemoveTask()} className="remove">

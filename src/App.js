@@ -4,8 +4,10 @@ import TodoList from "./components/TodoList.jsx";
 function App() {
   return (
     <div className="App">
-      <NewTask />
-      <TodoList />
+      <div className="container">
+        <NewTask />
+        <TodoList />
+      </div>
     </div>
   );
 }
