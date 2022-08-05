@@ -1,0 +1,41 @@
+.bulk-action{
+    
+
+    .active {
+        
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid black;
+    }
+
+    .detail {
+        padding: 6px 28px;
+        font-size: 11px;
+        margin-right: 17px;
+        border: 0;
+        border-radius: 5px;
+        background-color: #00bcd4;
+        color: white;
+    }
+
+    .remove {
+        padding: 6px 14px;
+        font-size: 11px;
+        border: 0;
+        border-radius: 5px;
+        background-color: #d9534f;
+        color: white;
+    }
+
+    
+
+    .unActive{
+        display: none;
+    }
+}

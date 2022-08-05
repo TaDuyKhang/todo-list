@@ -54,11 +54,22 @@ export const todoList = createSlice({
         return value;
       });
     },
+
+    bulkActionRemote: (state, action) => {
+      state.taskList = state.taskList.filter(
+        (item, index) => item.checked !== true
+      );
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewTask, removeTask, updateTask, setCheckbox } =
-  todoList.actions;
+export const {
+  addNewTask,
+  removeTask,
+  updateTask,
+  setCheckbox,
+  bulkActionRemote,
+} = todoList.actions;
 
 export default todoList.reducer;

@@ -5,19 +5,12 @@ import { useState, useEffect } from "react";
 export default function List({ item, index, handleDetail }) {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   debugger;
-  // }, [item]);
-
-  // const [checked, setChecked] = useState(false);
   const handleRemoveTask = () => {
     dispatch(removeTask(item.id));
   };
 
   const handleCheckbox = (e) => {
     dispatch(setCheckbox({ checked: e.target.checked, id: item.id }));
-    // setChecked(!checked);
-    // console.log();
   };
 
   return (
@@ -27,7 +20,7 @@ export default function List({ item, index, handleDetail }) {
           <input
             id={item.id}
             type="checkbox"
-            checked={item.checked}
+            checked={item.checked ? true : false}
             onChange={handleCheckbox}
             className="checkbox"
           />
