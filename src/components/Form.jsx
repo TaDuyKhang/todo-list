@@ -27,7 +27,11 @@ export default function Form({
         .required("This field is required"),
     }),
     onSubmit: (values) => {
-      const clone = { values, index };
+      const clone = { values, index: index };
+      // console.log(clone);
+      if (data) {
+        clone.values.id = data.id;
+      }
       handleSubmitForm(clone);
     },
   });

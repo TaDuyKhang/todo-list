@@ -17,6 +17,7 @@ export default function ListTask({ data }) {
   const [detail, setDetail] = useState(initialDetail());
   const dispatch = useDispatch();
   const handleSubmitForm = (data) => {
+    console.log(data);
     dispatch(updateTask(data));
   };
 
@@ -39,8 +40,8 @@ export default function ListTask({ data }) {
           <div className={detail[index] ? "active" : "unActive"}>
             <Form
               data={item}
-              index={index}
               handleSubmitForm={handleSubmitForm}
+              index={index}
             />
           </div>
         </div>
