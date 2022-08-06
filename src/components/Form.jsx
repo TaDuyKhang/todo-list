@@ -2,7 +2,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Moment from "moment";
 import "../css/Form.scss";
-import { useEffect } from "react";
+import { LIST_PIORITY, DEFAULT_TODO_DATA, PIORITY } from "../config";
+
+const validationSchema = Yup.object({
+  taskName: Yup.string().required("This field is required"),
+});
 
 export default function Form({
   title,
@@ -15,33 +19,32 @@ export default function Form({
 }) {
   const minDate = Moment().format("YYYY-MM-DD");
 
-  useEffect(() => {
-    console.log("data", data);
-  }, [data]);
-
   const formik = useFormik({
-    initialValues: {
-      taskName: data?.taskName || "",
-      description: data?.description || "",
-      date: data ? data.date : date || "",
-      piority: data?.piority || "",
-    },
-    validationSchema: Yup.object({
-      taskName: Yup.string()
-        .min(1, "This field is required")
-        .required("This field is required"),
-    }),
-    onSubmit: (values, { resetForm }) => {
-      const clone = { values, index: index };
-      // console.log(clone);
-      if (data) {
-        clone.values.id = data.id;
-        clone.values.checked = data.checked;
-      }
-      handleSubmitForm(clone);
+    initialValues: data ? { ...data } : DEFAULT_TODO_DATA,
+    // {
+    // initialValues: {
+    //   taskName: data?.taskName || "",
+    //   description: data?.description || "",
+    //   date: data?.date || Moment().format("YYYY-MM-DD hh:mm:ss"),
+    //   piority: data?.piority || PIORITY.normal,
+    // },
+    validationSchema,
+    onSubmit: (values, api) => {
+      const todo = {
+        ...values,
+        taskName: values.taskName.trim(),
+        id: data?.id || new Date().valueOf(),
+        checked: data?.checked || false,
+      };
+      // const clone = { values };
+      // if (data) {
+      //   clone.values.id = data.id;
+      //   clone.values.checked = data.checked;
+      // }
+      handleSubmitForm(todo);
 
       if (!data) {
-        resetForm();
+        api.resetForm();
       }
     },
   });
@@ -57,13 +60,20 @@ export default function Form({
         id="taskName"
         name="taskName"
         type="text"
-        className="taskName"
+        className={
+          formik.touched.taskName && formik.errors.taskName
+            ? "taskName error"
+            : "taskName"
+        }
         placeholder={placeholder}
-        onChange={formik.handleChange}
+        onChange={(e) => {
+          const value = e.target.value.trim();
+          formik.setFieldValue("taskName", value);
+        }}
         value={formik.values.taskName}
       />
       {formik.touched.taskName && formik.errors.taskName ? (
-        <div>{formik.errors.taskName}</div>
+        <div className="error-message">{formik.errors.taskName}</div>
       ) : null}
 
       <label className="label" htmlFor="description">
@@ -93,29 +103,27 @@ export default function Form({
             value={formik.values.date}
           />
         </div>
+        <p>{formik.piority}</p>
         <div className="item">
           <label className="label" htmlFor="piority">
             Piority
           </label>
           <select
             name="piority"
-            defaultValue={data?.piority ? data?.piority : "Normal"}
             className="piority"
-            value={formik.piority}
+            value={formik.values.piority}
             onChange={formik.handleChange}
             style={{ display: "block" }}
           >
-            <option value="Low" label="Low">
-              {" "}
-              Low
-            </option>
-            <option value="Normal" label="Normal">
-              Normal
-            </option>
-            >
-            <option value="High" label="High">
-              High
-            </option>
+            {LIST_PIORITY.map((piority) => (
+              <option
+                key={piority.value}
+                value={piority.value}
+                selected={formik.piority}
+              >
+                {piority.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>

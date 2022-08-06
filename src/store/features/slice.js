@@ -7,7 +7,7 @@ export const todoList = createSlice({
       {
         taskName: "Do homework",
         description: "Lorem ipsum...",
-        date: "2023-07-04",
+        date: "2023-06-26",
         piority: "Normal",
         id: "000",
         checked: true,
@@ -15,9 +15,10 @@ export const todoList = createSlice({
       {
         taskName: "Do housework",
         description: "Do housework",
-        date: "2023-06-26",
+        date: "2023-07-04",
         piority: "High",
         id: "001",
+        checked: false,
       },
       {
         taskName: "Learn something",
@@ -25,28 +26,37 @@ export const todoList = createSlice({
         date: "2023-07-10",
         piority: "Low",
         id: "002",
+        checked: false,
       },
     ],
   },
   reducers: {
     addNewTask: (state, action) => {
       state.taskList.push(action.payload);
+      state.taskList.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(a.date) - new Date(b.date);
+      });
     },
+
     removeTask: (state, action) => {
       state.taskList = state.taskList.filter(
         (item, index) => item.id !== action.payload
       );
     },
     updateTask: (state, action) => {
-      debugger;
-      state.taskList = state.taskList.filter(
-        (item, index) => item.id !== action.payload.values.id
-      );
-      state.taskList.splice(action.payload.index, 0, action.payload.values);
+      const todo = action.payload;
+      const todoIndex = state.taskList.findIndex((item) => item.id === todo.id);
+      state.taskList[todoIndex] = todo;
+      state.taskList.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(a.date) - new Date(b.date);
+      });
     },
 
     setCheckbox: (state, action) => {
-      // debugger;
       state.taskList = state.taskList.map((value, index) => {
         if (value.id === action.payload.id) {
           value.checked = action.payload.checked;

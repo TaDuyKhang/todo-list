@@ -6,17 +6,12 @@ import "../css/BulkAction.scss";
 export default function BulkAction(params) {
   const data = useSelector((state) => state.todoList.taskList);
   const dispatch = useDispatch();
-  const [isChecked, setIsChecked] = useState();
+  const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
-    checkData();
+    const checked = data.some((element) => element.checked);
+    setIsChecked(checked);
   }, [data]);
-
-  const checkData = () => {
-    data.some((element) => element.checked === true)
-      ? setIsChecked(true)
-      : setIsChecked(false);
-  };
 
   const handleBulkActionRemote = () => {
     dispatch(bulkActionRemote());

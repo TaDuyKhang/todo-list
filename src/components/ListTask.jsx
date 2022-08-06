@@ -7,19 +7,20 @@ import Form from "./Form.jsx";
 import Item from "./Item.jsx";
 
 export default function ListTask({ data }) {
-  const [detail, setDetail] = useState([]);
+  const [detailList, setDetailList] = useState([]);
   const dispatch = useDispatch();
 
   const handleSubmitForm = (data) => {
-    console.log(data);
     dispatch(updateTask(data));
+    const itemId = data.id;
+    handleDetail(itemId);
   };
 
   const handleDetail = (id) => {
-    if (detail?.some((element) => element === id)) {
-      setDetail(detail?.filter((element) => element !== id));
+    if (detailList.includes(id)) {
+      setDetailList(detailList?.filter((item) => item !== id));
     } else {
-      setDetail([...detail, id]);
+      setDetailList([...detailList, id]);
     }
   };
 
@@ -29,13 +30,7 @@ export default function ListTask({ data }) {
         <div key={item.id}>
           <Item item={item} handleDetail={handleDetail} />
 
-          <div
-            className={
-              detail?.some((element) => element === item.id)
-                ? "active"
-                : "unActive"
-            }
-          >
+          <div className={detailList.includes(item.id) ? "active" : "unActive"}>
             <Form data={item} handleSubmitForm={handleSubmitForm} />
           </div>
         </div>

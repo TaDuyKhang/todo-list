@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import "../css/SearchBar.scss";
 
@@ -7,29 +7,32 @@ export default function SearchBar({ filterData }) {
   const [inputText, setInputText] = useState("");
 
   useEffect(() => {
+    const filteredData = data?.filter((el) => {
+      if (!inputText.trim()) {
+        return el;
+      } else {
+        return el.taskName.toLowerCase().includes(inputText);
+      }
+    });
+
     filterData(filteredData);
   }, [inputText, data]);
 
-  let inputHandler = (e) => {
+  const inputHandler = (e) => {
     //convert input text to lower case
-    var lowerCase = e.target.value.toLowerCase();
+    const lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
   };
 
-  const filteredData = data?.filter((el) => {
-    if (inputText === "") {
-      return el;
-    } else {
-      return el.taskName.toLowerCase().includes(inputText);
-    }
-  });
-
-  return (
-    <input
-      className="searchBar"
-      onChange={inputHandler}
-      type="text"
-      placeholder="Search ..."
-    />
+  return useMemo(
+    () => (
+      <input
+        className="searchBar"
+        onChange={inputHandler}
+        type="text"
+        placeholder="Search ..."
+      />
+    ),
+    [inputText]
   );
 }

@@ -25,13 +25,16 @@ export default function Item({ item, handleDetail }) {
           />
           <p className="checkbox-p"></p>
         </label>
-        <span className="task-name">{item.taskName}</span>
+
+        <p className="task-name">{item.taskName}</p>
       </div>
+
       <div className="button-box">
         <button onClick={() => handleDetail(item.id)} className="detail">
           Detail
         </button>
-        <button onClick={() => handleRemoveTask()} className="remove">
+
+        <button onClick={handleRemoveTask} className="remove">
           Remove
         </button>
       </div>
