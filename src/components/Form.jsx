@@ -21,13 +21,6 @@ export default function Form({
 
   const formik = useFormik({
     initialValues: data ? { ...data } : DEFAULT_TODO_DATA,
-    // {
-    // initialValues: {
-    //   taskName: data?.taskName || "",
-    //   description: data?.description || "",
-    //   date: data?.date || Moment().format("YYYY-MM-DD hh:mm:ss"),
-    //   piority: data?.piority || PIORITY.normal,
-    // },
     validationSchema,
     onSubmit: (values, api) => {
       const todo = {
@@ -36,11 +29,7 @@ export default function Form({
         id: data?.id || new Date().valueOf(),
         checked: data?.checked || false,
       };
-      // const clone = { values };
-      // if (data) {
-      //   clone.values.id = data.id;
-      //   clone.values.checked = data.checked;
-      // }
+
       handleSubmitForm(todo);
 
       if (!data) {

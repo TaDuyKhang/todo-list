@@ -34,8 +34,6 @@ export const todoList = createSlice({
     addNewTask: (state, action) => {
       state.taskList.push(action.payload);
       state.taskList.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
         return new Date(a.date) - new Date(b.date);
       });
     },
@@ -50,8 +48,6 @@ export const todoList = createSlice({
       const todoIndex = state.taskList.findIndex((item) => item.id === todo.id);
       state.taskList[todoIndex] = todo;
       state.taskList.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
         return new Date(a.date) - new Date(b.date);
       });
     },
